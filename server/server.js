@@ -3,12 +3,12 @@ require('./config/config');
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
-const {ObjectID} = require('mongodb');
+const { ObjectID } = require('mongodb');
 
-var {mongoose} = require('./db/mongoose');
-var {Todo} = require('./models/todo');
-var {User} = require('./models/user');
-var {authenticate} = require('./middleware/authenticate');
+var { mongoose } = require('./db/mongoose');
+var { Todo } = require('./models/todo');
+var { User } = require('./models/user');
+var { authenticate } = require('./middleware/authenticate');
 
 var app = express();
 const port = process.env.PORT;
@@ -32,7 +32,7 @@ app.get('/todos', authenticate, (req, res) => {
   Todo.find({
     _creator: req.user._id
   }).then((todos) => {
-    res.send({todos});
+    res.send({ todos });
   }, (e) => {
     res.status(400).send(e);
   });
@@ -53,7 +53,7 @@ app.get('/todos/:id', authenticate, (req, res) => {
       return res.status(404).send();
     }
 
-    res.send({todo});
+    res.send({ todo });
   }).catch((e) => {
     res.status(400).send();
   });
@@ -74,7 +74,7 @@ app.delete('/todos/:id', authenticate, (req, res) => {
       return res.status(404).send();
     }
 
-    res.send({todo});
+    res.send({ todo });
   }).catch((e) => {
     res.status(400).send();
   });
@@ -95,12 +95,12 @@ app.patch('/todos/:id', authenticate, (req, res) => {
     body.completedAt = null;
   }
 
-  Todo.findOneAndUpdate({_id: id, _creator: req.user._id}, {$set: body}, {new: true}).then((todo) => {
+  Todo.findOneAndUpdate({ _id: id, _creator: req.user._id }, { $set: body }, { new: true }).then((todo) => {
     if (!todo) {
       return res.status(404).send();
     }
 
-    res.send({todo});
+    res.send({ todo });
   }).catch((e) => {
     res.status(400).send();
   })
@@ -148,4 +148,4 @@ app.listen(port, () => {
   console.log(`Started up at port ${port}`);
 });
 
-module.exports = {app};
+module.exports = { app };
