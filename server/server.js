@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 app.post('/todos', authenticate, async (req, res) => {
   try {
     const todo = new Todo({
+      title: req.body.title,
       text: req.body.text,
       _creator: req.user._id
     });
