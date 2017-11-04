@@ -30,7 +30,7 @@ app.post('/todos', authenticate, async (req, res) => {
   }
 });
 
-app.get('/todos', async (req, res) => {
+app.get('/todos', authenticate, async (req, res) => {
   try {
     const todos = await Todo.find({
       _creator: req.user._id
